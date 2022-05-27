@@ -72,10 +72,7 @@ This function should only modify configuration layer settings."
      haskell
      rust
      go
-     protobuf
-     emacs-lisp
-     ;; version-control
-     treemacs)
+     protobuf)
 
    ;; List of additional packages that will be installed without being wrapped
    ;; in a layer (generally the packages are installed only and should still be
@@ -85,7 +82,12 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(pbcopy )
+   dotspacemacs-additional-packages '(pbcopy
+                                      (copilot :location (recipe
+                                                          :fetcher github
+                                                          :repo "zerolfx/copilot.el"
+                                                          :files ("*.el" "dist")))
+                                      )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -272,7 +274,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("DejaVuSansMono Nerd Font"
-                               :size 10.0
+                               :size 12.0
                                :weight normal
                                :width normal)
 
@@ -528,6 +530,7 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-swap-number-row nil
 
+
    ;; Either nil or a number of seconds. If non-nil zone out after the specified
    ;; number of seconds. (default nil)
    dotspacemacs-zone-out-when-idle nil
@@ -585,9 +588,29 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (setq-default
-   display-fill-column-indicator-column 100
-   )
+  (setq-default display-fill-column-indicator-column 100)
+
+  (defun copilot-tab
+    (interactive)
+    (or (copilot-accept-completion)
+        (company-indent-or-complete-common nil)
+        )
+    )
+
+  (with-eval-after-load 'company
+    ;; disable inline previews
+    (delq 'company-preview-if-just-one-frontend company-frontends)
+    ;; enable tab completion
+    (define-key company-mode-map (kbd "<tab>") 'copilot-tab)
+    (define-key company-mode-map (kbd "TAB") 'copilot-tab)
+    (define-key company-active-map (kbd "<tab>") 'copilot-tab)
+    (define-key company-active-map (kbd "TAB") 'copilot-tab))
+
+
+  (add-hook 'prog-mode-hook 'copilot-mode)
+
+  (define-key evil-insert-state-map (kbd "C-<tab>") 'copilot-accept-completion-by-word)
+  (define-key evil-insert-state-map (kbd "C-TAB") 'copilot-accept-completion-by-word)
 )
 
 
