@@ -52,6 +52,8 @@ This function should only modify configuration layer settings."
      git
      syntax-checking
      auto-completion
+     tree-sitter
+
 
      ;; Markup Languages
      html
@@ -69,6 +71,7 @@ This function should only modify configuration layer settings."
      java
      scala
      erlang
+     elixir
      haskell
      rust
      go
