@@ -89,6 +89,11 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(pbcopy
+                                      (silicon :location (recipe
+                                                          :fetcher github
+                                                          :repo "iensu/silicon-el"
+                                                          :files ("*.el")
+                                                          ))
                                       (copilot :location (recipe
                                                           :fetcher github
                                                           :repo "zerolfx/copilot.el"
@@ -605,6 +610,9 @@ before packages are loaded."
   (setq-default display-fill-column-indicator-column 100)
 
   (define-key evil-insert-state-map (kbd "C-J") 'copilot-accept-completion)
+
+  (use-package silicon
+    :load-path "~/Pictures/silicon")
 
 )
 
