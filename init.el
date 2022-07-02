@@ -55,6 +55,11 @@ This function should only modify configuration layer settings."
      auto-completion
      tree-sitter
 
+     ;; wakatime layer
+    (wakatime :variables
+    wakatime-api-key "058dd4c8-0d70-43fd-b672-6fec30dd4ca1"
+    wakatime-cli-path "/opt/homebrew/bin/wakatime-cli")
+
 
      ;; Markup Languages
      html
