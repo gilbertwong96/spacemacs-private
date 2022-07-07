@@ -41,7 +41,7 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      org
      helm
-     better-defaults
+     ;; better-defaults
      multiple-cursors
      ;; org
      ;; (shell :variables
